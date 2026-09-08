@@ -44,6 +44,10 @@ update-poetry-lock() {
     poetry lock --no-update
 }
 
+rebuild() {
+    dc build
+}
+
 
 case "$1" in
     dc)
@@ -84,6 +88,11 @@ case "$1" in
     update-poetry-lock)
         shift
         update-poetry-lock "$@"
+        ;;
+
+    rebuild)
+        shift
+        rebuild "$@"
         ;;
 
     *)
