@@ -10,11 +10,16 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.1/ref/settings/
 """
 
-import os
 from pathlib import Path
+
+import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+env = environ.Env()
+
+environ.Env.read_env(BASE_DIR / ".env")
 
 
 # Quick-start development settings - unsuitable for production
@@ -24,9 +29,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-_ismbmixxr^p5ip3w==z+n@^05&#0x@kp@ow@da#f*qgm_oa_5'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env.bool("DEBUG", default=False)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = env.tuple("ALLOWED_HOSTS", default=())
 
 
 # Application definition
@@ -76,11 +81,11 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.getenv("POSTGRES_DB", default="django-app"),
-        "USER": os.getenv("POSTGRES_USER", default="django-app"),
-        "PASSWORD": os.getenv("POSTGRES_PASSWORD", default="django-app"),
-        "HOST": os.getenv("POSTGRES_HOST", default='postgres'),
-        "PORT": os.getenv("POSTGRES_PORT", default='5432'),
+        "NAME": env.str("POSTGRES_DB", default="django-app"),
+        "USER": env.str("POSTGRES_USER", default="django-app"),
+        "PASSWORD": env.str("POSTGRES_PASSWORD", default="django-app"),
+        "HOST": env.str("POSTGRES_HOST", default='postgres'),
+        "PORT": env.str("POSTGRES_PORT", default='5432'),
     }
 }
 
