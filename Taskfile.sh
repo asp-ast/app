@@ -16,7 +16,7 @@ dcr() {
 
 
 run() {
-    dc up "$@"
+    dc up --remove-orphans "$@"
 }
 
 
