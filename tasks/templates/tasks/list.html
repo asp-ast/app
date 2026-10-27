@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Список задач</title>
+</head>
+<body>
+    <h1>Список задач</h1>
+
+    <section>
+        <h2>Статистика</h2>
+
+        <ul>
+            <li>Всего задач: {{ statistics.total }}</li>
+            <li>Выполнено: {{ statistics.completed }}</li>
+            <li>Осталось: {{ statistics.remaining }}</li>
+            <li>Всего часов: {{ statistics.total_hours }}</li>
+            <li>Выполнено часов: {{ statistics.completed_hours }}</li>
+            <li>Прогресс: {{ statistics.progress }}%</li>
+        </ul>
+    </section>
+
+    <hr>
+
+    <section>
+        <h2>Задачи</h2>
+
+        {% if tasks %}
+            <ul>
+                {% for task in tasks %}
+                    <li>
+                        <a href="{% url 'task_detail' task.id %}">
+                            {{ task.title }}
+                        </a>
+
+                        —
+
+                        {% if task.status %}
+                            {{ task.status.name }}
+                        {% else %}
+                            Статус не указан
+                        {% endif %}
+
+                        —
+
+                        {% if task.priority %}
+                            {{ task.priority.name }}
+                        {% else %}
+                            Приоритет не указан
+                        {% endif %}
+
+                        — {{ task.estimated_hours }} ч.
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Задач пока нет.</p>
+        {% endif %}
+    </section>
+</body>
+</html>
